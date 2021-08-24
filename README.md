@@ -1,20 +1,20 @@
 # User authentication system
 
-The main goal for this proof-of-concept project is to have fun and experiment with new technologies. <br/>
+The main goal for this proof-of-concept project is to have fun and experiment with new technologies.
+<br/>
 Features :
 <ul>
-              <li>responsive UI.</li>
-              <li>Login, logout, and update profile capabilities.</li>
-            </ul>
+<li>responsive UI.</li>
+<li>Login, logout, and update profile capabilities.</li>
+</ul>
 <br/>
 Technologies:
 <ul>
-              <li>React</li>
-              <li>MaterialUi.</li>
-   <li>Firebase.</li>
-            </ul>
-
- upcomming features :
+<li>React</li>
+<li>MaterialUi.</li>
+ <li>Firebase.</li>
+</ul>
+upcomming features :
             <ul>
               <li>Welcoming email.</li>
               <li>Forgot email.</li>
