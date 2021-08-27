@@ -13,6 +13,8 @@ import SignUpDialog from "./SignUpDialog";
 import AppBarSection from "./AppBarSection";
 import MenuListItem from "./MenuListItem";
 import { useAuth } from "../../firebase/firebaseProvider";
+import { withRouter } from "react-router-dom";
+import LockIcon from "@material-ui/icons/Lock";
 
 const mediumPassword = new RegExp(
   "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
@@ -130,7 +132,7 @@ const headerReducer = (state, action) => {
   }
 };
 
-function Header() {
+function Header({ history }) {
   const classes = useStyles();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
@@ -168,6 +170,9 @@ function Header() {
         if (state.signInRememberMe)
           localStorage.setItem(state.signInEmail, state.signInPassword);
         else localStorage.removeItem(state.signInEmail);
+
+        history.push("/");
+        dispatchHeaderReducer({ type: "changeSelectedTab", value: "home" });
       })
       .catch((err) => {
         enqueueSnackbar(err.message, { variant: "error" });
@@ -318,6 +323,28 @@ function Header() {
           title={"React challenge"}
         />
 
+        <MenuListItem
+          eventClick={(event) => {
+            dispatchHeaderReducer({ type: "toggleDrawer", value: false });
+            dispatchHeaderReducer({
+              type: "changeSelectedTab",
+              value: "privatePage",
+            });
+          }}
+          to={"/privatePage"}
+          menuSelectedTab={state.menuSelectedTab === "privatePage"}
+          icon={
+            state.drawerIsOpen ? (
+              <BarChart />
+            ) : (
+              <Tooltip title="Private page" placement="right">
+                <LockIcon />
+              </Tooltip>
+            )
+          }
+          title={"Private page"}
+        />
+
         <Divider />
       </Drawer>
 
@@ -350,4 +377,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default withRouter(Header);

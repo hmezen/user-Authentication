@@ -20,8 +20,9 @@ import UpdateProfileDialog from "./UpdateProfileDialog";
 import firebase from "../../firebase/firebaseApp";
 import { useSnackbar } from "notistack";
 import { useAuth } from "../../firebase/firebaseProvider";
+import { withRouter } from "react-router-dom";
 
-function AppBarSection(props) {
+function AppBarSection({ history, ...props }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const { user, setUser } = useAuth();
@@ -169,6 +170,11 @@ function AppBarSection(props) {
                   onClick={() => {
                     setUserMenuAnchorEl(null);
                     firebase.auth().signOut();
+                    history.push("/");
+                    props.dispatchHeaderReducer({
+                      type: "changeSelectedTab",
+                      value: "home",
+                    });
                   }}
                 >
                   <ListItemAvatar>
@@ -225,4 +231,4 @@ function AppBarSection(props) {
   );
 }
 
-export default AppBarSection;
+export default withRouter(AppBarSection);
