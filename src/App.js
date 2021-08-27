@@ -6,6 +6,9 @@ import GenericNotFound from "./components/GenericNotFound";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuth } from "./firebase/firebaseProvider";
 import ReactChallenge from "./components/ReactChallenge";
+import PrivateRoute from "./components/PrivateRoute";
+import LoginRequired from "./components/LoginRequired";
+import PrivatePage from "./components/PrivatePage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +39,9 @@ function App() {
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/reactChallenge" component={ReactChallenge} exact />
-            <Route component={GenericNotFound} />
+            <Route path="/loginRequired" component={LoginRequired} exact />
+            <PrivateRoute path="/privatePage" component={PrivatePage} exact />
+            <Route component={GenericNotFound} exact />
           </Switch>
         </main>
       </div>

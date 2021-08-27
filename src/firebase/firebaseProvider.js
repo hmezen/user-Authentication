@@ -18,6 +18,7 @@ function useProvideAuth() {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        console.log("here");
         firebase
           .firestore()
           .collection("users")
