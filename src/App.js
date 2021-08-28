@@ -9,6 +9,8 @@ import ReactChallenge from "./components/ReactChallenge";
 import PrivateRoute from "./components/PrivateRoute";
 import LoginRequired from "./components/LoginRequired";
 import PrivatePage from "./components/PrivatePage";
+import AdminPage from "./components/AdminPage";
+import AccessDenied from "./components/AccessDenied";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +43,13 @@ function App() {
             <Route path="/reactChallenge" component={ReactChallenge} exact />
             <Route path="/loginRequired" component={LoginRequired} exact />
             <PrivateRoute path="/privatePage" component={PrivatePage} exact />
+            <PrivateRoute
+              path="/adminPage"
+              component={AdminPage}
+              permission={"isAdmin"}
+              exact
+            />
+            <Route path="/accessDenied" component={AccessDenied} exact />
             <Route component={GenericNotFound} exact />
           </Switch>
         </main>

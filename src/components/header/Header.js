@@ -344,6 +344,27 @@ function Header({ history }) {
           }
           title={"Private page"}
         />
+        <MenuListItem
+          eventClick={(event) => {
+            dispatchHeaderReducer({ type: "toggleDrawer", value: false });
+            dispatchHeaderReducer({
+              type: "changeSelectedTab",
+              value: "adminPage",
+            });
+          }}
+          to={"/adminPage"}
+          menuSelectedTab={state.menuSelectedTab === "adminPage"}
+          icon={
+            state.drawerIsOpen ? (
+              <BarChart />
+            ) : (
+              <Tooltip title="adminPage" placement="right">
+                <LockIcon />
+              </Tooltip>
+            )
+          }
+          title={"adminPage"}
+        />
 
         <Divider />
       </Drawer>

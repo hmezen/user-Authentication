@@ -21,6 +21,7 @@ import firebase from "../../firebase/firebaseApp";
 import { useSnackbar } from "notistack";
 import { useAuth } from "../../firebase/firebaseProvider";
 import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 
 function AppBarSection({ history, ...props }) {
   const classes = useStyles();
@@ -86,6 +87,15 @@ function AppBarSection({ history, ...props }) {
       });
   };
 
+  const MyMenuItem = withStyles({
+    root: {
+      "&:hover": {
+        backgroundColor: "rgb(231, 233, 236)",
+        borderRadius: "4px",
+      },
+    },
+  })(MenuItem);
+
   return (
     <>
       <AppBar position="fixed" className={classes.appBar}>
@@ -147,26 +157,27 @@ function AppBarSection({ history, ...props }) {
                 }}
                 PaperProps={{
                   style: {
-                    width: "20ch",
+                    minWidth: "223px",
+                    padding: "16px 20px",
                   },
                 }}
                 getContentAnchorEl={null}
               >
-                <MenuItem
+                <hr />
+                <MyMenuItem
                   onClick={() => {
                     setUserMenuAnchorEl(null);
-
                     setUpdateProfileDialogIsOpen(true);
                   }}
                 >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <AccountBox />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary="Profile" />
-                </MenuItem>
-                <MenuItem
+                  <ListItemText
+                    style={{
+                      textAlign: "center",
+                    }}
+                    primary="Profile"
+                  />
+                </MyMenuItem>
+                <MyMenuItem
                   onClick={() => {
                     setUserMenuAnchorEl(null);
                     firebase.auth().signOut();
@@ -182,8 +193,8 @@ function AppBarSection({ history, ...props }) {
                       <ExitToApp />
                     </Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary="Logout" />
-                </MenuItem>
+                  <ListItemText primary="Sign Out" />
+                </MyMenuItem>
               </Menu>
             </>
           ) : (
