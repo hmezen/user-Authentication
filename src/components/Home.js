@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Paper } from "@material-ui/core";
+import { useAuth } from "../firebase/firebaseProvider";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Home() {
+  const { user } = useAuth();
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -20,6 +22,7 @@ function Home() {
           <Typography variant="h4" color="primary" gutterBottom>
             Home
           </Typography>
+          <p>{JSON.stringify(user)}</p>
           <Typography variant="h5" color="inherit" paragraph>
             Welcome to my Firebase user authentication proof-of-concept. <br />
             This is a responsive react application that uses Firebase for user

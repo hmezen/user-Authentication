@@ -1,13 +1,19 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "../firebase/firebaseProvider";
-import LoginRequired from "./LoginRequired";
 
-const PrivateRoute = ({ path, component, ...rest }) => {
+const PrivateRoute = ({ path, component, permission, ...rest }) => {
   const { user } = useAuth();
-
   return user ? (
-    <Route path={path} component={component} {...rest} />
+    permission ? (
+      user.roles[permission] ? (
+        <Route path={path} component={component} {...rest} />
+      ) : (
+        <Redirect to={"/accessDenied"} />
+      )
+    ) : (
+      <Route path={path} component={component} {...rest} />
+    )
   ) : (
     <Redirect to={"/loginRequired"} />
   );
