@@ -6,21 +6,19 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { ProvideAuth } from "./firebase/firebaseProvider";
 import { SnackbarProvider } from "notistack";
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const myTheme = createTheme({
-  typography:{
+  typography: {
     fontFamily: "DM Sans",
     fontSize: "16px",
-    // line-height: 19px;
-    // font-weight: 400;
-    // font-family: DM Sans;
+    fontWeightRegular: "400",
   },
   palette: {
     primary: {
       main: "rgba(0,255,132,1)",
       light: "rgba(0,255,132,1)",
-      dark:"rgba(0,255,132,1)"
+      dark: "rgba(0,255,132,1)",
     },
   },
 });
@@ -30,8 +28,10 @@ ReactDOM.render(
     <BrowserRouter>
       <React.StrictMode>
         <SnackbarProvider maxSnack={3}>
-           <ThemeProvider theme={myTheme}> <App /></ThemeProvider>
-         
+          <ThemeProvider theme={myTheme}>
+            {" "}
+            <App />
+          </ThemeProvider>
         </SnackbarProvider>
       </React.StrictMode>
     </BrowserRouter>

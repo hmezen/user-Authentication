@@ -276,7 +276,7 @@ function Header({ history }) {
               <IconButton
                 onClick={() => dispatchHeaderReducer({ type: "toggleDrawer" })}
               >
-                <ChevronLeft  />
+                <ChevronLeft />
               </IconButton>
             </div>
             <Divider />
@@ -313,10 +313,10 @@ function Header({ history }) {
           menuSelectedTab={state.menuSelectedTab === "reactChallenge"}
           icon={
             state.drawerIsOpen ? (
-              <BarChart style={{ fontSize: 25 }}/>
+              <BarChart style={{ fontSize: 25 }} />
             ) : (
               <Tooltip title="React challenge" placement="right">
-                <BarChart style={{ fontSize: 25 }}/>
+                <BarChart style={{ fontSize: 25 }} />
               </Tooltip>
             )
           }
@@ -335,10 +335,10 @@ function Header({ history }) {
           menuSelectedTab={state.menuSelectedTab === "privatePage"}
           icon={
             state.drawerIsOpen ? (
-              <LockIcon style={{ fontSize: 25 }}/>
+              <LockIcon style={{ fontSize: 25 }} />
             ) : (
               <Tooltip title="Private page" placement="right">
-                <LockIcon style={{ fontSize: 25 }}/>
+                <LockIcon style={{ fontSize: 25 }} />
               </Tooltip>
             )
           }
@@ -356,14 +356,14 @@ function Header({ history }) {
           menuSelectedTab={state.menuSelectedTab === "adminPage"}
           icon={
             state.drawerIsOpen ? (
-              <LockIcon style={{ fontSize: 25 }}/>
+              <LockIcon style={{ fontSize: 25 }} />
             ) : (
-              <Tooltip title="adminPage" placement="right">
-                <LockIcon style={{ fontSize: 25 }}/>
+              <Tooltip title="Admin page" placement="right">
+                <LockIcon style={{ fontSize: 25 }} />
               </Tooltip>
             )
           }
-          title={"adminPage"}
+          title={"Admin page"}
         />
 
         <Divider />

@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Paper } from "@material-ui/core";
-import { useAuth } from "../firebase/firebaseProvider";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -13,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Home() {
-  const { user } = useAuth();
   const classes = useStyles();
   return (
     <React.Fragment>
