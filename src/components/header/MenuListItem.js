@@ -1,22 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ListItemText, ListItemIcon, ListItem } from "@material-ui/core";
-import { useStyles } from "./header-styles";
+import { withStyles } from "@material-ui/core/styles";
 
 const MenuListItem = ({ eventClick, to, menuSelectedTab, icon, title }) => {
-  const classes = useStyles();
+  const MyListItem = withStyles({
+    selected: {
+      "&$selected, &$selected:hover": {
+        borderLeft: "3px solid rgba(0,255,132,1)",
+      },
+    },
+  })(ListItem);
+
   return (
-    <ListItem
+    <MyListItem
       onClick={eventClick}
       button
       component={Link}
       to={to}
       selected={menuSelectedTab}
-      classes={{ selected: classes.selectedItem }}
     >
       <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText primary={title} />
-    </ListItem>
+    </MyListItem>
   );
 };
 

@@ -9,18 +9,18 @@ import {
   Menu,
   MenuItem,
   ListItemText,
-  ListItemAvatar,
   Tooltip,
+  Grid,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import AccountBox from "@material-ui/icons/AccountBox";
-import ExitToApp from "@material-ui/icons/ExitToApp";
 import { useStyles } from "./header-styles";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import firebase from "../../firebase/firebaseApp";
 import { useSnackbar } from "notistack";
 import { useAuth } from "../../firebase/firebaseProvider";
 import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import greenLantern from "../../lantern.png";
 
 function AppBarSection({ history, ...props }) {
   const classes = useStyles();
@@ -42,7 +42,7 @@ function AppBarSection({ history, ...props }) {
   });
 
   useEffect(() => {
-    if (user)
+    user &&
       setUserProfileContent({
         firstName: user.firstName,
         lastName: user.lastName,
@@ -86,132 +86,196 @@ function AppBarSection({ history, ...props }) {
       });
   };
 
+  const MyMenuItem = withStyles({
+    root: {
+      "&:hover": {
+        backgroundColor: "rgb(231, 233, 236)",
+        borderRadius: "4px",
+      },
+    },
+  })(MenuItem);
+
   return (
     <>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={() =>
-              props.dispatchHeaderReducer({ type: "toggleDrawer" })
-            }
-            className={classes.menuButton}
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            <MenuIcon />
-          </IconButton>
-          {user ? (
-            <>
-              <div
-                className={classes.toTheRight}
-                onClick={(e) => setUserMenuAnchorEl(e.currentTarget)}
+            <Grid item style={{ maxWidth: "100px" }}>
+              <IconButton
+                edge="start"
+                color="primary"
+                aria-label="open drawer"
+                onClick={() =>
+                  props.dispatchHeaderReducer({ type: "toggleDrawer" })
+                }
+                className={classes.menuButton}
               >
-                <Tooltip
-                  title={
-                    user.firstName + user.lastName !== ""
-                      ? user.firstName + " " + user.lastName
-                      : user.email
-                  }
-                  placement="left"
-                >
-                  <Badge
-                    color="secondary"
-                    overlap="circular"
-                    badgeContent=" "
-                    variant="dot"
+                <MenuIcon style={{ fontSize: 25 }} />
+              </IconButton>
+            </Grid>
+            <Grid
+              item
+              style={{
+                flexGrow: "100",
+                textAlign: "center",
+              }}
+            >
+              <img
+                src={greenLantern}
+                style={{
+                  width: "50px",
+                  height: "50px",
+                }}
+              />
+            </Grid>
+            <Grid item style={{ maxWidth: "200px" }}>
+              {user ? (
+                <div>
+                  <div onClick={(e) => setUserMenuAnchorEl(e.currentTarget)}>
+                    <Tooltip
+                      title={
+                        user.firstName + user.lastName !== ""
+                          ? user.firstName + " " + user.lastName
+                          : user.email
+                      }
+                      placement="left"
+                    >
+                      <Badge
+                        color="secondary"
+                        overlap="circular"
+                        badgeContent=" "
+                        variant="dot"
+                        anchorOrigin={{
+                          vertical: "bottom",
+                          horizontal: "left",
+                        }}
+                      >
+                        <Avatar src={user.avatarUrl} />
+                      </Badge>
+                    </Tooltip>
+                  </div>
+
+                  <Menu
+                    anchorEl={userMenuAnchorEl}
+                    keepMounted
                     anchorOrigin={{
                       vertical: "bottom",
                       horizontal: "left",
                     }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(userMenuAnchorEl)}
+                    onClose={() => {
+                      setUserMenuAnchorEl(null);
+                    }}
+                    PaperProps={{
+                      style: {
+                        minWidth: "223px",
+                        padding: "16px 20px",
+                      },
+                    }}
+                    getContentAnchorEl={null}
                   >
-                    <Avatar src={user.avatarUrl} />
-                  </Badge>
-                </Tooltip>
-              </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Grid
+                        container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={2}
+                      >
+                        <Grid item xs={12}>
+                          <Avatar
+                            src={user.avatarUrl}
+                            className={classes.largeAvatar}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <p style={{ fontWeight: "700" }}>
+                            {user.firstName} {user.lastName}{" "}
+                          </p>
+                        </Grid>
+                      </Grid>
+                    </div>
 
-              <Menu
-                anchorEl={userMenuAnchorEl}
-                keepMounted
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(userMenuAnchorEl)}
-                onClose={() => {
-                  setUserMenuAnchorEl(null);
-                }}
-                PaperProps={{
-                  style: {
-                    width: "20ch",
-                  },
-                }}
-                getContentAnchorEl={null}
-              >
-                <MenuItem
-                  onClick={() => {
-                    setUserMenuAnchorEl(null);
-
-                    setUpdateProfileDialogIsOpen(true);
-                  }}
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <AccountBox />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary="Profile" />
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    setUserMenuAnchorEl(null);
-                    firebase.auth().signOut();
-                    history.push("/");
-                    props.dispatchHeaderReducer({
-                      type: "changeSelectedTab",
-                      value: "home",
-                    });
-                  }}
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <ExitToApp />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary="Logout" />
-                </MenuItem>
-              </Menu>
-            </>
-          ) : (
-            <div className={classes.toTheRight}>
-              <Button
-                onClick={() =>
-                  props.dispatchHeaderReducer({
-                    type: "openSignUpModal",
-                    value: true,
-                  })
-                }
-              >
-                Sign Up
-              </Button>
-              &nbsp; &nbsp;
-              <Button
-                variant="outlined"
-                onClick={() =>
-                  props.dispatchHeaderReducer({
-                    type: "setLoginModal",
-                    value: true,
-                  })
-                }
-              >
-                Sign In
-              </Button>
-            </div>
-          )}
+                    <hr />
+                    <MyMenuItem
+                      onClick={() => {
+                        setUserMenuAnchorEl(null);
+                        setUpdateProfileDialogIsOpen(true);
+                      }}
+                    >
+                      <ListItemText
+                        style={{
+                          textAlign: "center",
+                        }}
+                        primary="Profile"
+                      />
+                    </MyMenuItem>
+                    <MyMenuItem
+                      onClick={() => {
+                        setUserMenuAnchorEl(null);
+                        firebase.auth().signOut();
+                        history.push("/");
+                        props.dispatchHeaderReducer({
+                          type: "changeSelectedTab",
+                          value: "home",
+                        });
+                      }}
+                    >
+                      <ListItemText
+                        primary="Sign Out"
+                        style={{
+                          textAlign: "center",
+                        }}
+                      />
+                    </MyMenuItem>
+                  </Menu>
+                </div>
+              ) : (
+                <div className={classes.toTheRight}>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() =>
+                      props.dispatchHeaderReducer({
+                        type: "openSignUpModal",
+                        value: true,
+                      })
+                    }
+                  >
+                    Sign Up
+                  </Button>
+                  &nbsp; &nbsp;
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    onClick={() =>
+                      props.dispatchHeaderReducer({
+                        type: "setLoginModal",
+                        value: true,
+                      })
+                    }
+                  >
+                    Sign In
+                  </Button>
+                </div>
+              )}
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <UpdateProfileDialog

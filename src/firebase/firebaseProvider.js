@@ -18,7 +18,6 @@ function useProvideAuth() {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log("here");
         firebase
           .firestore()
           .collection("users")
@@ -33,7 +32,7 @@ function useProvideAuth() {
             setLoading(false);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       } else {
         setUser(null);

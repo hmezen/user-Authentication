@@ -291,10 +291,10 @@ function Header({ history }) {
           menuSelectedTab={state.menuSelectedTab === "home"}
           icon={
             state.drawerIsOpen ? (
-              <Dashboard />
+              <Dashboard style={{ fontSize: 25 }} />
             ) : (
               <Tooltip title="Home" placement="right">
-                <Dashboard />
+                <Dashboard style={{ fontSize: 25 }} />
               </Tooltip>
             )
           }
@@ -313,10 +313,10 @@ function Header({ history }) {
           menuSelectedTab={state.menuSelectedTab === "reactChallenge"}
           icon={
             state.drawerIsOpen ? (
-              <BarChart />
+              <BarChart style={{ fontSize: 25 }} />
             ) : (
               <Tooltip title="React challenge" placement="right">
-                <BarChart />
+                <BarChart style={{ fontSize: 25 }} />
               </Tooltip>
             )
           }
@@ -335,14 +335,35 @@ function Header({ history }) {
           menuSelectedTab={state.menuSelectedTab === "privatePage"}
           icon={
             state.drawerIsOpen ? (
-              <BarChart />
+              <LockIcon style={{ fontSize: 25 }} />
             ) : (
               <Tooltip title="Private page" placement="right">
-                <LockIcon />
+                <LockIcon style={{ fontSize: 25 }} />
               </Tooltip>
             )
           }
           title={"Private page"}
+        />
+        <MenuListItem
+          eventClick={(event) => {
+            dispatchHeaderReducer({ type: "toggleDrawer", value: false });
+            dispatchHeaderReducer({
+              type: "changeSelectedTab",
+              value: "adminPage",
+            });
+          }}
+          to={"/adminPage"}
+          menuSelectedTab={state.menuSelectedTab === "adminPage"}
+          icon={
+            state.drawerIsOpen ? (
+              <LockIcon style={{ fontSize: 25 }} />
+            ) : (
+              <Tooltip title="Admin page" placement="right">
+                <LockIcon style={{ fontSize: 25 }} />
+              </Tooltip>
+            )
+          }
+          title={"Admin page"}
         />
 
         <Divider />

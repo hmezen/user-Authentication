@@ -22,9 +22,6 @@ export const useStyles = makeStyles((theme) => ({
     width: "40px",
     height: "40px",
   },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
   toolbarIcon: {
     display: "flex",
     alignItems: "center",
@@ -34,14 +31,14 @@ export const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "#2196f3",
+    backgroundColor: "rgb(0 35 51)",
+    height: "60px",
   },
-
-  menuButton: {
-    marginRight: 36,
+  largeAvatar: {
+    width: theme.spacing(9),
+    height: theme.spacing(9),
   },
   title: {
-    //flexGrow: 2,
     padding: theme.spacing(0, 2, 0, 2),
   },
   drawerPaper: {
@@ -84,8 +81,7 @@ export const useStyles = makeStyles((theme) => ({
     height: 240,
   },
   toTheRight: {
-    position: "fixed",
-    right: "15px",
+    justifySelf: "end",
   },
   loginButton: {
     position: "fixed",
