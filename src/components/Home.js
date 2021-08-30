@@ -22,7 +22,7 @@ function Home() {
           <Typography variant="h4" color="primary" gutterBottom>
             Home
           </Typography>
-          <p>{JSON.stringify(user)}</p>
+
           <Typography variant="h5" color="inherit" paragraph>
             Welcome to my Firebase user authentication proof-of-concept. <br />
             This is a responsive react application that uses Firebase for user
