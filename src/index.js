@@ -9,6 +9,17 @@ import { SnackbarProvider } from "notistack";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const myTheme = createTheme({
+  breakpoints: {
+    keys: ["xs", "msm", "sm", "md", "lg", "xl"],
+    values: {
+      xs: 0,
+      msm: 600,
+      sm: 668,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
   typography: {
     fontFamily: "DM Sans",
     fontSize: "16px",
