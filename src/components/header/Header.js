@@ -1,7 +1,18 @@
 import React, { useReducer } from "react";
 import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Drawer, Divider, IconButton, Tooltip } from "@material-ui/core";
+import {
+  Drawer,
+  Divider,
+  IconButton,
+  Tooltip,
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Link,
+} from "@material-ui/core";
 import { ChevronLeft, Dashboard, BarChart } from "@material-ui/icons";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -15,6 +26,7 @@ import MenuListItem from "./MenuListItem";
 import { useAuth } from "../../firebase/firebaseProvider";
 import { withRouter } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
+import DialogComponent from "../DialogComponent";
 
 const mediumPassword = new RegExp(
   "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
@@ -151,7 +163,7 @@ function Header({ history }) {
     drawerIsOpen: false,
     loginModalIsOpen: false,
     signUpModalIsOpen: false,
-    menuSelectedTab: 0,
+    menuSelectedTab: "home",
     customerMenuTabIsExtended: false,
     customerMenuAnchorEl: null,
     paswordStrength: null,
@@ -369,18 +381,103 @@ function Header({ history }) {
         <Divider />
       </Drawer>
 
-      <LogInDialog
-        loginModalIsOpen={state.loginModalIsOpen}
-        state={state}
-        handleLoginDialogChange={dispatchHeaderReducer}
-        handleSignIn={(event) => handleSignIn(event)}
-        signUp={() => {
-          dispatchHeaderReducer({ type: "openSignUpModal" });
-        }}
-        setLoginModalIsOpen={() =>
+      <DialogComponent
+        isOpen={state.loginModalIsOpen}
+        handleClose={() =>
           dispatchHeaderReducer({ type: "setLoginModal", value: false })
         }
-      />
+        title={"Welcome to My App"}
+        subTitle={
+          "Sign in to continue to your account and to have access to private pages."
+        }
+      >
+        <form className={classes.form} validate>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="signInEmail"
+            autoComplete="email"
+            autoFocus
+            value={state.signInEmail}
+            onChange={(event) =>
+              dispatchHeaderReducer({
+                type: "updateField",
+                field: "signInEmail",
+                value: event.target.value,
+              })
+            }
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="signInPassword"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={state.signInPassword}
+            onChange={(event) =>
+              dispatchHeaderReducer({
+                type: "updateField",
+                field: "signInPassword",
+                value: event.target.value,
+              })
+            }
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                value="remember"
+                color="primary"
+                checked={state.signInRememberMe}
+                onChange={(event) =>
+                  dispatchHeaderReducer({
+                    type: "updateField",
+                    field: "signInRememberMe",
+                    value: event.target.checked,
+                  })
+                }
+              />
+            }
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={(event) => handleSignIn(event)}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              {/* <Link to="#" variant="body2">
+                    Forgot password?
+                  </Link> */}
+            </Grid>
+            <Grid item>
+              <Link
+                to="#"
+                variant="body2"
+                onClick={() =>
+                  dispatchHeaderReducer({ type: "openSignUpModal" })
+                }
+              >
+                Don't have an account? Sign Up
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </DialogComponent>
+
       <SignUpDialog
         signUpModalIsOpen={state.signUpModalIsOpen}
         setSignUpModalIsOpen={() =>
