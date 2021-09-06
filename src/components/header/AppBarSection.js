@@ -11,16 +11,17 @@ import {
   ListItemText,
   Tooltip,
   Grid,
+  TextField,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "./header-styles";
-import UpdateProfileDialog from "./UpdateProfileDialog";
 import firebase from "../../firebase/firebaseApp";
 import { useSnackbar } from "notistack";
 import { useAuth } from "../../firebase/firebaseProvider";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import greenLantern from "../../lantern.png";
+import DialogComponent from "../DialogComponent";
 
 function AppBarSection({ history, ...props }) {
   const classes = useStyles();
@@ -29,12 +30,6 @@ function AppBarSection({ history, ...props }) {
   const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
   const [updateProfileDialogIsOpen, setUpdateProfileDialogIsOpen] =
     useState(false);
-
-  const [
-    showUpdateProfileLoadingAnimation,
-    setShowUpdateProfileLoadingAnimation,
-  ] = useState(false);
-
   const [userProfileContent, setUserProfileContent] = useState({
     firstName: "",
     lastName: "",
@@ -52,8 +47,6 @@ function AppBarSection({ history, ...props }) {
 
   const saveProfileChnages = (e) => {
     e.preventDefault();
-    setShowUpdateProfileLoadingAnimation(true);
-
     firebase
       .firestore()
       .collection("users")
@@ -72,17 +65,10 @@ function AppBarSection({ history, ...props }) {
           lastName: userProfileContent.lastName,
           avatarUrl: userProfileContent.avatarUrl,
         });
-        setUserProfileContent({
-          firstName: "",
-          lastName: "",
-          avatarUrl: "",
-        });
         setUpdateProfileDialogIsOpen(false);
-        setShowUpdateProfileLoadingAnimation(false);
       })
       .catch((error) => {
         enqueueSnackbar(error.message, { variant: "error" });
-        setShowUpdateProfileLoadingAnimation(false);
       });
   };
 
@@ -126,6 +112,7 @@ function AppBarSection({ history, ...props }) {
               }}
             >
               <img
+                alt=""
                 src={greenLantern}
                 style={{
                   width: "50px",
@@ -278,19 +265,81 @@ function AppBarSection({ history, ...props }) {
           </Grid>
         </Toolbar>
       </AppBar>
-      <UpdateProfileDialog
-        updateProfileDialogIsOpen={updateProfileDialogIsOpen}
-        setUpdateProfileDialogIsOpen={() => setUpdateProfileDialogIsOpen(false)}
-        saveProfileChnages={(e) => saveProfileChnages(e)}
-        userProfileContent={userProfileContent}
-        setUserContent={(event) =>
-          setUserProfileContent({
-            ...userProfileContent,
-            [event.target.name]: event.target.value,
-          })
-        }
-        showAnimation={showUpdateProfileLoadingAnimation}
-      />
+
+      <DialogComponent
+        isOpen={updateProfileDialogIsOpen}
+        handleClose={() => setUpdateProfileDialogIsOpen(false)}
+        title={"About me"}
+        subTitle={"Sign in to continue to your account."}
+      >
+        <form validate>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                fullWidth
+                id="update-profile-first-name"
+                label="First name"
+                autoFocus
+                value={userProfileContent.firstName}
+                onChange={(e) =>
+                  setUserProfileContent({
+                    ...userProfileContent,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                id="update-profile-last-name"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+                value={userProfileContent.lastName}
+                onChange={(e) =>
+                  setUserProfileContent({
+                    ...userProfileContent,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                multiline
+                rows={2}
+                fullWidth
+                label="Avatar Url"
+                name="avatarUrl"
+                autoComplete="avatar url"
+                value={userProfileContent.avatarUrl}
+                onChange={(e) =>
+                  setUserProfileContent({
+                    ...userProfileContent,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </Grid>
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={(e) => saveProfileChnages(e)}
+          >
+            Save changes
+          </Button>
+        </form>
+      </DialogComponent>
     </>
   );
 }
