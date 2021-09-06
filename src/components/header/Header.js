@@ -19,14 +19,13 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import firebase from "../../firebase/firebaseApp";
 import { useSnackbar } from "notistack";
 import { useStyles } from "./header-styles";
-import LogInDialog from "./LoginDialog";
-import SignUpDialog from "./SignUpDialog";
 import AppBarSection from "./AppBarSection";
 import MenuListItem from "./MenuListItem";
 import { useAuth } from "../../firebase/firebaseProvider";
 import { withRouter } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
-import DialogComponent from "../DialogComponent";
+import SignInDialog from "../DialogComponent";
+import SignUpDialog from "../DialogComponent";
 
 const mediumPassword = new RegExp(
   "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
@@ -194,7 +193,7 @@ function Header({ history }) {
 
   function validateEmail(email) {
     const re =
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
 
@@ -381,18 +380,19 @@ function Header({ history }) {
         <Divider />
       </Drawer>
 
-      <DialogComponent
+      <SignInDialog
         isOpen={state.loginModalIsOpen}
         handleClose={() =>
           dispatchHeaderReducer({ type: "setLoginModal", value: false })
         }
         title={"Welcome to My App"}
         subTitle={
-          "Sign in to continue to your account and to have access to private pages."
+          "Sign in to continue to your account and to discover private pages."
         }
       >
         <form className={classes.form} validate>
           <TextField
+            color="secondary"
             variant="outlined"
             margin="normal"
             required
@@ -412,6 +412,7 @@ function Header({ history }) {
             }
           />
           <TextField
+            color="secondary"
             variant="outlined"
             margin="normal"
             required
@@ -434,7 +435,7 @@ function Header({ history }) {
             control={
               <Checkbox
                 value="remember"
-                color="primary"
+                color="secondary"
                 checked={state.signInRememberMe}
                 onChange={(event) =>
                   dispatchHeaderReducer({
@@ -476,21 +477,146 @@ function Header({ history }) {
             </Grid>
           </Grid>
         </form>
-      </DialogComponent>
+      </SignInDialog>
 
       <SignUpDialog
-        signUpModalIsOpen={state.signUpModalIsOpen}
-        setSignUpModalIsOpen={() =>
-          dispatchHeaderReducer({ type: "closeSignUpModal" })
-        }
-        state={state}
-        dispatchHeaderReducer={dispatchHeaderReducer}
-        handleSignUpUSer={(e) => handleSignUpUser(e)}
-        signIn={() => {
-          dispatchHeaderReducer({ type: "closeSignUpModal" });
-          dispatchHeaderReducer({ type: "setLoginModal", value: true });
-        }}
-      />
+        isOpen={state.signUpModalIsOpen}
+        handleClose={() => dispatchHeaderReducer({ type: "closeSignUpModal" })}
+        title={"Join My App for free"}
+        subTitle={"Sign up to create an account and to discover the project."}
+      >
+        <form className={classes.form} validate>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                color="secondary"
+                autoComplete="fname"
+                name="signUpFirstName"
+                variant="outlined"
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+                value={state.signUpFirstName}
+                onChange={(event) =>
+                  dispatchHeaderReducer({
+                    type: "updateField",
+                    field: "signUpFirstName",
+                    value: event.target.value,
+                  })
+                }
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                color="secondary"
+                variant="outlined"
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="signUpLastName"
+                autoComplete="lname"
+                value={state.signUpLastName}
+                onChange={(event) =>
+                  dispatchHeaderReducer({
+                    type: "updateField",
+                    field: "signUpLastName",
+                    value: event.target.value,
+                  })
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                color="secondary"
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="signUpEmail"
+                autoComplete="email"
+                value={state.signUpEmail}
+                onChange={(event) =>
+                  dispatchHeaderReducer({
+                    type: "updateField",
+                    field: "signUpEmail",
+                    value: event.target.value,
+                  })
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                color="secondary"
+                variant="outlined"
+                required
+                fullWidth
+                name="signUpPassword"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={state.signUpPassword}
+                onChange={(event) =>
+                  dispatchHeaderReducer({
+                    type: "updateField",
+                    field: "signUpPassword",
+                    value: event.target.value,
+                  })
+                }
+                helperText={state.signUpPassword ? state.paswordStrength : null}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                color="secondary"
+                variant="outlined"
+                required
+                fullWidth
+                name="signUpPassword"
+                label="Confirm password"
+                type="password"
+                id="signUpConfirmPassword"
+                autoComplete="current-password"
+                value={state.signUpConfirmPassword}
+                onChange={(event) =>
+                  dispatchHeaderReducer({
+                    type: "updateField",
+                    field: "signUpConfirmPassword",
+                    value: event.target.value,
+                  })
+                }
+              />
+            </Grid>
+          </Grid>
+
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={(e) => handleSignUpUser(e)}
+          >
+            Sign Up
+          </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link
+                to="#"
+                variant="body2"
+                onClick={() => {
+                  dispatchHeaderReducer({ type: "closeSignUpModal" });
+                  dispatchHeaderReducer({ type: "setLoginModal", value: true });
+                }}
+              >
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </SignUpDialog>
     </>
   );
 }

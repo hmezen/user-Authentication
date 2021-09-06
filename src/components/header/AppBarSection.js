@@ -30,12 +30,6 @@ function AppBarSection({ history, ...props }) {
   const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
   const [updateProfileDialogIsOpen, setUpdateProfileDialogIsOpen] =
     useState(false);
-
-  const [
-    showUpdateProfileLoadingAnimation,
-    setShowUpdateProfileLoadingAnimation,
-  ] = useState(false);
-
   const [userProfileContent, setUserProfileContent] = useState({
     firstName: "",
     lastName: "",
@@ -53,8 +47,6 @@ function AppBarSection({ history, ...props }) {
 
   const saveProfileChnages = (e) => {
     e.preventDefault();
-    setShowUpdateProfileLoadingAnimation(true);
-
     firebase
       .firestore()
       .collection("users")
@@ -74,11 +66,9 @@ function AppBarSection({ history, ...props }) {
           avatarUrl: userProfileContent.avatarUrl,
         });
         setUpdateProfileDialogIsOpen(false);
-        setShowUpdateProfileLoadingAnimation(false);
       })
       .catch((error) => {
         enqueueSnackbar(error.message, { variant: "error" });
-        setShowUpdateProfileLoadingAnimation(false);
       });
   };
 

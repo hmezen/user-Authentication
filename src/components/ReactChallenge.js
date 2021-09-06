@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import Skeleton from "@material-ui/lab/Skeleton";
-
-import { TextField, Button, Grid, Typography } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Grid,
+  Typography,
+  Paper,
+  TableRow,
+  TableHead,
+  TableContainer,
+  TableCell,
+  TableBody,
+  Table,
+} from "@material-ui/core";
 import { useSnackbar } from "notistack";
 
 const setNewLocationObject = (locationObject) => {
@@ -37,7 +41,6 @@ const setNewLocationObject = (locationObject) => {
 const useStyles = makeStyles((theme) => ({
   table: {
     padding: theme.spacing(3),
-
     margin: "auto",
   },
   searchButton: {
@@ -63,14 +66,18 @@ function ReactChallenge() {
 
   useEffect(() => {
     fetch("https://randomuser.me/api/?results=20")
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res;
+      })
       .then((res) => {
         serUsersLocation(res.results);
-        setDataIsLoading(false);
       })
       .catch((err) => {
-        setDataIsLoading(false);
         enqueueSnackbar(err.message, { variant: "error" });
+      })
+      .finally(() => {
+        setDataIsLoading(false);
       });
   }, []);
 
@@ -80,6 +87,7 @@ function ReactChallenge() {
     usersArray.map((userData) => {
       const userLocation = userData.location;
       usersLocations.push(setNewLocationObject(userLocation));
+      return userData;
     });
     setUsersLocations(usersLocations);
     setOriginalLocations(usersLocations);
@@ -93,6 +101,7 @@ function ReactChallenge() {
       Object.assign(headerOrderState, {
         [headerValue]: orderState.None,
       });
+      return headerValue;
     });
     setLocationOrderHeader(headerOrderState);
   };
