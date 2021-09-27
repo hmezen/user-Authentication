@@ -30,7 +30,7 @@ export const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: 11110,
     backgroundColor: "rgb(0 35 51)",
     height: "60px",
   },
