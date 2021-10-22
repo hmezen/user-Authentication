@@ -1,17 +1,26 @@
 # User authentication system
 
-The main goal for this proof-of-concept project is to have fun and experiment with new technologies.
+#### Welcome to User authentication system, an open-source login system using Firebase!
 
-Features:
-<ul>
-<li>responsive UI.</li>
-<li>Login, logout, and update profile capabilities.</li>
-</ul>
+### What is this website for?
+I wanted to make a responsive website that contains an authentication module using Firebase, where users can create an account login/logout and update profile info.
 
-Technologies:
-<ul>
-<li>React</li>
-<li>MaterialUi.</li>
- <li>Firebase.</li>
-</ul>
+### Why did you create this website?
+It's a template for an authentication system that i intend to use in future projects.
 
+### What did you use to build this website?
+I used React, Material-UI as a design library, and Firebase for autentication and data storage. I'm planning on adding some advanced features like login using google or facebook accounts etc...
+
+---
+
+## How to run this web app locally
+
+After cloning the repository onto your machine, navigate to the project's directory and install the dependencies using this command: 
+```console
+npm install
+```
+Now to run the project use:
+
+```console
+npm start
+```
