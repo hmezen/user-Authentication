@@ -24,3 +24,7 @@ Now to run the project use:
 ```console
 npm start
 ```
+
+## Want to contribute?
+
+Thank you! That would be great. Please feel free to send any pull requests here.
