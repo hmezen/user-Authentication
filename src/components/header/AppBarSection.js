@@ -14,14 +14,27 @@ import {
   TextField,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useStyles } from "./header-styles";
 import firebase from "../../firebase/firebaseApp";
 import { useSnackbar } from "notistack";
 import { useAuth } from "../../firebase/firebaseProvider";
 import { withRouter } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
-import greenLantern from "../../lantern.png";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import greenLantern from "../../assests/lantern.png";
 import DialogComponent from "../DialogComponent";
+
+const useStyles = makeStyles((theme) => ({
+  // appBar: {
+  //   zIndex: 11110,
+  //   backgroundColor: "rgb(0 35 51)",
+  //   height: "60px",
+  // },
+  toTheRight: {
+    justifySelf: "end",
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
 function AppBarSection({ history, ...props }) {
   const classes = useStyles();
@@ -83,7 +96,7 @@ function AppBarSection({ history, ...props }) {
 
   return (
     <>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className="appBar">
         <Toolbar className={classes.toolbar}>
           <Grid
             container

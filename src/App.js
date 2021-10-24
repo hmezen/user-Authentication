@@ -11,6 +11,8 @@ import LoginRequired from "./components/LoginRequired";
 import PrivatePage from "./components/PrivatePage";
 import AdminPage from "./components/AdminPage";
 import AccessDenied from "./components/AccessDenied";
+import image from "./assests/Landing_page.png";
+import "./App.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +32,21 @@ function App() {
   const { loading } = useAuth();
 
   if (loading) {
-    return <div>loading ...</div>;
+    return (
+      <div
+        style={{
+          margin: "auto",
+          display: "flex",
+          justifyContent: "center",
+          padding: "10px",
+        }}
+      >
+        <img
+          src={image}
+          style={{ width: "80%", height: "70%", margin: "auto" }}
+        ></img>
+      </div>
+    );
   }
   return (
     <>

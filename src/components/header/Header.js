@@ -13,12 +13,16 @@ import {
   Grid,
   Link,
 } from "@material-ui/core";
-import { ChevronLeft, Dashboard, BarChart } from "@material-ui/icons";
-import { useTheme } from "@material-ui/core/styles";
+import {
+  ChevronLeft,
+  Dashboard,
+  BarChart,
+  VerifiedUser,
+} from "@material-ui/icons";
+import { useTheme, makeStyles } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import firebase from "../../firebase/firebaseApp";
 import { useSnackbar } from "notistack";
-import { useStyles } from "./header-styles";
 import AppBarSection from "./AppBarSection";
 import MenuListItem from "./MenuListItem";
 import { useAuth } from "../../firebase/firebaseProvider";
@@ -26,6 +30,44 @@ import { withRouter } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
 import SignInDialog from "../DialogComponent";
 import SignUpDialog from "../DialogComponent";
+
+const useStyles = makeStyles((theme) => ({
+  toolbarIcon: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
+    ...theme.mixins.toolbar,
+  },
+  drawerPaper: {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: "240px",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing(0),
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(7),
+    },
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  form: {
+    // width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
 const mediumPassword = new RegExp(
   "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
@@ -346,10 +388,10 @@ function Header({ history }) {
           menuSelectedTab={state.menuSelectedTab === "privatePage"}
           icon={
             state.drawerIsOpen ? (
-              <LockIcon style={{ fontSize: 25 }} />
+              <VerifiedUser style={{ fontSize: 25 }} />
             ) : (
               <Tooltip title="Private page" placement="right">
-                <LockIcon style={{ fontSize: 25 }} />
+                <VerifiedUser style={{ fontSize: 25 }} />
               </Tooltip>
             )
           }

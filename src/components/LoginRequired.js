@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import img from "../you-need-to-login.svg";
+import image from "../assests/you-need-to-login.svg";
 import { Alert } from "@material-ui/lab";
 import { Grid } from "@material-ui/core";
 
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   image: {
     margin: "auto",
     height: "auto",
-    maxHeight: "100%",
+    maxHeight: "80%",
     maxWidth: "80%",
   },
   alert: {
@@ -29,11 +29,10 @@ const LoginRequired = () => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={4}
+        spacing={1}
       >
         <Grid item xs={12} sm={12} lg={12}>
-          {" "}
-          <img className={classes.image} src={img} alt={""} />
+          <img className={classes.image} src={image} alt={""} />
         </Grid>
         <Grid item xs={12} sm={12} lg={12}>
           <Alert className={classes.alert} severity="error">
