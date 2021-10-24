@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "30px",
     color: "rgb(255, 255, 255)",
   },
+  dialog: {
+    marginTop: theme.spacing(6),
+  },
 }));
 
 const DialogComponent = ({
@@ -59,6 +62,7 @@ const DialogComponent = ({
 
   return (
     <Dialog
+      className={classes.dialog}
       fullWidth={true}
       maxWidth="sm"
       open={isOpen}
