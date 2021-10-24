@@ -1,4 +1,6 @@
 # User authentication system
+![Photo of the website](/src/assests/user-auth-app.gif)
+
 
 #### Welcome to User authentication system, an open-source login system using Firebase!
 
